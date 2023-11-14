@@ -1,5 +1,4 @@
 # Chat-Bot
----
 
 ## Contributors
 - Julien CAPOSIENA @julien-cpsn

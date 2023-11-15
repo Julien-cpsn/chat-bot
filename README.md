@@ -58,47 +58,47 @@ Here is our alignment schema:
 ### Lawful good
 
 Comes at you to hug.
-
-STORY BOARD
+![](./images/lawful-good.png)
 
 ### Neutral good
 
-Say Hello towards you
-
-STORY BOARD
+Say Hello and wave hand
+![](./images/neutral-good.png)
 
 ### Chaotic good
 
-STORY BOARD
+Clap his hands while saying "Siamo tutti antifascisti"
+![](./images/chaotic-good.png)
 
 ### Lawful neutral
 
 Sumimasen
-
-STORY BOARD
+![](./images/lawful-neutral.png)
 
 ### True neutral
 
 Stare at your soul with no emotions. Pure void.
-
-STORY BOARD
+![](./images/true-neutral.png)
 
 ### Chaotic neutral
 
-STORY BOARD
+1312
+![](./images/chaotic-neutral.png)
 
 ### Lawful evil
 
 Round with his hand below the belt.
+![](./images/lawful-evil.png)
 
 ### Neutral evil
 
-STORY BOARD
+A small ping pong break?
+![](./images/neutral-evil.png)
 
 ### Chaotic evil
 
 No description.
-
+![](./images/chaotic-evil.png)
 
 ## Contributors
 

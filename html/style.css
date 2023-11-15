@@ -1,0 +1,86 @@
+* {
+    font-family: Roboto, sans-serif;
+}
+
+.alignment-matrix {
+    margin: 75px auto auto auto;
+    border: 1px solid rgb(128, 128, 128);
+}
+
+.cell {
+    width: 300px;
+    height: 300px;
+
+    text-align: center;
+}
+
+.cell h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.cell p {
+    font-size: 24px;
+}
+
+tr:nth-child(odd) td:nth-child(even) {
+    background: rgb(173, 214, 255);
+}
+
+tr:nth-child(even) td:nth-child(odd) {
+    background: rgb(173, 214, 255);
+}
+
+tr:nth-child(even) td:nth-child(even) {
+    background: rgb(222, 240, 255);
+}
+
+tr:nth-child(odd) td:nth-child(odd) {
+    background: rgb(222, 240, 255);
+}
+
+#france {
+    position: absolute;
+    bottom: 150px;
+    left: 25px;
+
+    width: 150px;
+}
+
+#uk {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+
+    width: 150px;
+}
+
+#logo-simplx {
+    position: absolute;
+    bottom: 330px;
+    right: 25px;
+
+    width: 150px;
+}
+
+#logo-sfr {
+    position: absolute;
+    bottom: 150px;
+    right: 35px;
+
+    width: 130px;
+}
+
+#logo-cpe-lyon {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+
+    width: 150px;
+}
+
+#debug {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}

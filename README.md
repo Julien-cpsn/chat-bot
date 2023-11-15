@@ -22,7 +22,7 @@ Here is our alignment schema:
         </td>
         <td>
             <b>Chaotic good</b><br>
-            TODO
+            SIAMO TUTTI ANTIFASCISTI
         </td>
     </tr>
     <tr>
@@ -36,7 +36,7 @@ Here is our alignment schema:
         </td>
         <td>
             <b>Chaotic neutral</b><br>
-            TODO
+            1312
         </td>
     </tr>
     <tr>
@@ -46,7 +46,7 @@ Here is our alignment schema:
         </td>
         <td>
             <b>Neutral evil</b><br>
-            TODO
+            Ping pong break
         </td>
         <td>
             <b>Chaotic evil</b><br>

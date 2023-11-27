@@ -1,0 +1,8 @@
+topic: ~Introduction()
+language: frf
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+u:("oui") c'est ok $Introduction/Test=1
+u:("non") ce n'est pas ok ok $Introduction/Test=0

@@ -21,11 +21,18 @@ var sentences = {
     }
 }
 
+/* === VARIABLES === */
+
 var logs = []
 var session = new QiSession()
 var tts = undefined
 var language = "English"
+var LanguageManager = undefined
 var ALMemory = undefined
+var AlignmentMatrix = undefined
+
+
+/* === SERVICES === */
 
 session.service("ALMemory").then(function (local_ALMemory) {
     ALMemory = local_ALMemory
@@ -36,6 +43,16 @@ session.service("ALTextToSpeech").then(function (local_tts) {
     tts = local_tts
     tts.setLanguage("English")
 })
+
+session.service("AlignmentMatrix").then(function (local_alignment_matrix) {
+    AlignmentMatrix = local_alignment_matrix
+})
+
+session.service("LanguageManager").then(function (local_language_manager) {
+    LanguageManager = local_language_manager
+})
+
+/* === MAIN === */
 
 $(document).ready(function () {
 
@@ -53,14 +70,19 @@ $(document).ready(function () {
 
     $("td[id^=button-]").click(function () {
         var data = $(this).attr("app-action")
-        tts.say(sentences["click"][language] + data.replace("-", " ").replace("ch", "k"))
+        tts.say(sentences["click"][language] + data.replace("_", " ").replace("ch", "k"))
+
+        AlignmentMatrix[data]()
+
         debug(data)
     })
 
-    $("img[lang]").click(function () {
+    $("img[lang]").click(async function () {
         language = $(this).attr("lang")
-        tts.setLanguage(language)
+
+        await LanguageManager.setLanguage(language)
         tts.say(sentences["selection"][language] + sentences["language"][language])
+
         debug(language)
     })
 

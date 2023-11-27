@@ -10,30 +10,72 @@ import sys
 import argparse
 import glob
 
+
 class LanguageManager:
     def __init__(self, session):
         ### Topics ###
+
+        print "Loading dialog services..."
 
         self.ALDialog = session.service("ALDialog")
         self.ALDialog.resetAll()
         self.ALDialog.setLanguage("English")
 
-        self.test_topic = self.ALDialog.loadTopic(
-            "/home/nao/.local/share/PackageManager/apps/chat_bot/dialogs/introduction_en.top")
-        self.ALDialog.activateTopic(self.test_topic)
-        self.ALDialog.subscribe('Introduction')
+        self.topics = {
+            "Introduction": "introduction"
+        }
+
+        self.loaded_topics = {
+
+        }
+
+        self.loadTopic("Introduction")
+
+        print "Dialog services loaded!"
+        pass
 
     def setLanguage(self, language):
         print "Change language >", language
         self.ALDialog.setLanguage(language)
 
-        print glob.glob("/home/nao/.local/share/PackageManager/apps/chat_bot/dialogs/*.top")
+    def loadTopic(self, topic_name):
+        file_name = self.topics[topic_name]
+        language = self.ALDialog.getLanguage().lower()[:2]
+        file_path = "/home/nao/.local/share/PackageManager/apps/chat_bot/dialogs/" + file_name + "_" + language + ".top"
+
+        loaded_topic = self.ALDialog.loadTopic(file_path)
+
+        self.loaded_topics[topic_name] = loaded_topic
+        self.ALDialog.activateTopic(self.loaded_topics[topic_name])
+        self.ALDialog.subscribe(self.loaded_topics[topic_name])
+
+    def unloadTopic(self, topic_name):
+        # stopping the dialog engine
+        self.ALDialog.unsubscribe(topic_name)
+
+        # Deactivating the topic
+        topic = self.loaded_topics[topic_name]
+        self.ALDialog.deactivateTopic(topic)
+        self.ALDialog.unloadTopic(topic)
+        del self.loaded_topics[topic_name]
+
+    def unloadAllTopics(self):
+        print "Unloading all topics"
+        for topic_name in self.ALDialog.getAllLoadedTopics():
+            try:
+                self.unloadTopic(topic_name)
+            except:
+                continue
 
 
 class AlignmentMatrix:
     def __init__(self, session):
+        print "Loading alignment matrix services..."
+
         self.audio_player = session.service("ALAudioPlayer")
         self.tts = session.service("ALTextToSpeech")
+
+        print "Alignment matrix loaded!"
         pass
 
     def lawful_good(self):
@@ -103,11 +145,11 @@ class Main:
             self.tablet_service = session.service("ALTabletService")
             self.memory = session.service("ALMemory")
 
-            alignment_matrix = AlignmentMatrix(session)
-            self.alignment_matrix = session.registerService("AlignmentMatrix", alignment_matrix)
+            self.alignment_matrix = AlignmentMatrix(session)
+            self.alignment_matrix_services = session.registerService("AlignmentMatrix", self.alignment_matrix)
 
-            language_manager = LanguageManager(session)
-            self.language_manager = session.registerService("LanguageManager", language_manager)
+            self.language_manager = LanguageManager(session)
+            self.language_manager_service = session.registerService("LanguageManager", self.language_manager)
 
             ### Subscribers ###
 
@@ -134,13 +176,7 @@ class Main:
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
-            # stopping the dialog engine
-            self.ALDialog.unsubscribe("Introduction")
-
-            # Deactivating the topic
-            self.ALDialog.deactivateTopic(self.test_topic)
-            self.ALDialog.unloadTopic(self.test_topic)
-
+            self.language_manager.unloadAllTopics()
             sys.exit(0)
 
     def play_sfr(self, _):

@@ -2,9 +2,30 @@
 
 ## Description
 
-Our Pepper robot is based on the main character alignment schema below.
+Our Pepper robot do actions based on an alignement matrix. And can converse with the user.
 
 ![Main character alignment](images/main_character_alignment.png)
+
+## Ethical Analysis
+[Ethical Analysis.xlsx](./Analyse_ethique.xlsx)
+
+## Youtube Demo
+TODO
+
+## Setup instructions
+1. Clone the repo in /home/nao/.local/share/PackageManager/apps/chat-bot
+2. Run the code using "env OPENAI_KEY=<openai api key> python app.py"
+3. Profit!
+
+## Usage
+### On Tablet
+Clic any of the 9 alignement chart button to choose which action the robot will do
+
+### With voice
+Say the name of any of the 9 alignement chart cases to choose which action the robot will
+
+### The assistant
+TODO
 
 ## Story Board
 

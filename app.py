@@ -8,12 +8,12 @@ import qi
 import time
 import sys
 import argparse
-import glob
-
+import subprocess
+import json
 
 class LanguageManager:
     def __init__(self, session):
-        ### Topics ###
+        ### Services ###
 
         print "Loading dialog services..."
 
@@ -21,27 +21,30 @@ class LanguageManager:
         self.ALDialog.resetAll()
         self.ALDialog.setLanguage("English")
 
-        self.topics = {
-            "Introduction": "introduction"
-        }
+        self.loaded_topics = {}
 
-        self.loaded_topics = {
+        self.loadTopic("Chat")
 
-        }
-
-        self.loadTopic("Introduction")
+        #self.loadTopic("Introduction")
 
         print "Dialog services loaded!"
         pass
 
     def setLanguage(self, language):
         print "Change language >", language
+
+        topics = self.ALDialog.getAllLoadedTopics()
         self.ALDialog.setLanguage(language)
 
+        for topic_name in topics:
+            if topic_name in self.loaded_topics:
+                self.loadTopic(topic_name)
+
     def loadTopic(self, topic_name):
-        file_name = self.topics[topic_name]
+        print "Loading topic >", topic_name
+
         language = self.ALDialog.getLanguage().lower()[:2]
-        file_path = "/home/nao/.local/share/PackageManager/apps/chat_bot/dialogs/" + file_name + "_" + language + ".top"
+        file_path = "/home/nao/.local/share/PackageManager/apps/chat_bot/dialogs/" + topic_name.lower() + "_" + language + ".top"
 
         loaded_topic = self.ALDialog.loadTopic(file_path)
 
@@ -50,6 +53,8 @@ class LanguageManager:
         self.ALDialog.subscribe(self.loaded_topics[topic_name])
 
     def unloadTopic(self, topic_name):
+        print "Unloading topic >", topic_name
+
         # stopping the dialog engine
         self.ALDialog.unsubscribe(topic_name)
 
@@ -61,15 +66,19 @@ class LanguageManager:
 
     def unloadAllTopics(self):
         print "Unloading all topics"
+
         for topic_name in self.ALDialog.getAllLoadedTopics():
-            try:
-                self.unloadTopic(topic_name)
-            except:
-                continue
+            if topic_name in self.loaded_topics:
+                try:
+                    self.unloadTopic(topic_name)
+                except:
+                    continue
 
 
 class AlignmentMatrix:
     def __init__(self, session):
+        ### Services ###
+
         print "Loading alignment matrix services..."
 
         self.audio_player = session.service("ALAudioPlayer")
@@ -163,10 +172,18 @@ class Main:
 
             ### Web view ###
 
+            self.dialog_subscriber = self.memory.subscriber("test")
+            self.dialog_subscriber.signal.connect(self.test)
+
             self.tablet_service.showWebview("http://198.18.0.1/apps/chat_bot/index.html")
 
         except Exception, e:
             print "Error was: ", e
+
+    def test(self, content):
+        print len(content)
+        print ">", content
+        #self.queryChatGPT(content)
 
     def run(self):
         """
@@ -184,6 +201,38 @@ class Main:
         self.tablet_service.playVideo("http://198.18.0.1/apps/chat_bot/SFR.mp4")
         time.sleep(4)
         self.tablet_service.stopVideo()
+
+    def queryChatGPT(self, query):
+        response = subprocess.check_output([
+            """curl -s https://api.openai.com/v1/chat/completions \\
+              -H \"Content-Type: application/json\" \\
+              -H \"Authorization: Bearer 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\" \\
+              -d '{
+                \"model\": \"gpt-3.5-turbo\",
+                \"messages\": [
+                  {
+                    \"role\": \"system\",
+                    \"content\": \"You are a joyful and helpful assistant robot.\"
+                  },
+                  {
+                    \"role\": \"user\",
+                    \"content\": \"%s\"
+                  }
+                ]
+              }'""" % query],
+            shell=True
+        )
+
+        response_data = json.loads(response)
+
+        if 'choices' in response_data:
+            text = response_data['choices'][0]['message']['content']
+
+            print text
+            return text
+        else:
+            print response_data
+            return "error"
 
 
 if __name__ == "__main__":

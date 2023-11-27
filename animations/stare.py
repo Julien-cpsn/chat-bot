@@ -1,11 +1,11 @@
 import time
 from naoqi import GenerateClass, ALProxy
 
-class MyClass(GeneratedClass):
+class Tracker(GeneratedClass):
     def __init__(self):
         GeneratedClass.__init__(self)
-        self.tracker = ALProxy("ALTracker")
-        self.memory = ALProxy("ALMemory")
+        self.tracker = ALProxy("ALTracker", "127.0.0.1", 9559)
+        self.memory = ALProxy("ALMemory", "127.0.0.1", 9559)
         self.targetName = "Face"
         self.distanceX = 0.0
         self.distanceY = 0.0
@@ -131,3 +131,8 @@ class MyClass(GeneratedClass):
             self.memory.unsubscribeToEvent("ALTracker/TargetLost", self.getName())
             self.memory.unsubscribeToEvent("ALTracker/TargetReached", self.getName())
             self.subscribeDone = False
+
+try:
+    motion = Tracker()
+except BaseException, err:
+    print err

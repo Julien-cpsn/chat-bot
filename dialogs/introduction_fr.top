@@ -1,8 +1,11 @@
 topic: ~Introduction()
 language: frf
 
-# Catching inputs and triggering outputs
-#u:(e:onStart) $onStopped=1
+concept:(hello) [bonjour salut]
+concept:(bye) [au-revoir "À demain"]
+concept:(howAreYou) ["ça va" "comment tu vas" "comment ça va"]
 
-u:("oui") c'est ok $Introduction/Test=1
-u:("non") ce n'est pas ok ok $Introduction/Test=0
+u:("introduction") Salut, c'est moi, chatte botte ! Je suis un robot à but éthique et non-éthique
+u:(~hello) Bonjour
+u:(~bye) Au-revoir
+u:(~howAreYou) Je vais bien merci !

@@ -1,8 +1,11 @@
 topic: ~Introduction()
 language: enu
 
-# Catching inputs and triggering outputs
-#u:(e:onStart) $onStopped=1
+concept:(hello) [hello "good morning"]
+concept:(bye) [bye "see you"]
+concept:(howAreYou) ["how are you"]
 
-u:("yes") it's ok $Introduction/Test=1
-u:("no") that's not ok $Introduction/Test=0
+u:("introduction") Hello, it's me, chat bot! I am a robot made for ethical and unethical purpose
+u:(~hello) Hello
+u:(~bye) Bye
+u:(~howAreYou) I am fine, thanks!

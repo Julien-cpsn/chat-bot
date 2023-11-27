@@ -1,0 +1,8 @@
+topic: ~Introduction()
+language: enu
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+u:("yes") it's ok $Introduction/Test=1
+u:("no") that's not ok $Introduction/Test=0

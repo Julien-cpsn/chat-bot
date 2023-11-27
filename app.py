@@ -2,6 +2,7 @@
 # -*- encoding: UTF-8 -*-
 
 """Example: A Simple class to test dialogue and media"""
+import os
 
 import qi
 import time
@@ -15,7 +16,6 @@ class Main:
         This example uses the showImage method.
         To Test ALTabletService, you need to run the script ON the robot.
         """
-        # Get the service ALTabletService.
 
         try:
             ### Services ###
@@ -27,6 +27,16 @@ class Main:
 
             self.play_sfr_subscriber = self.memory.subscriber("play_sfr")
             self.play_sfr_subscriber.signal.connect(self.play_sfr)
+
+            ### Topics ###
+
+            self.ALDialog = session.service("ALDialog")
+            self.ALDialog.resetAll()
+            self.ALDialog.setLanguage("English")
+
+            self.test_topic = self.ALDialog.loadTopic("/home/nao/.local/share/PackageManager/apps/chat_bot/dialogs/introduction.top")
+            self.ALDialog.activateTopic(self.test_topic)
+            self.ALDialog.subscribe('Introduction')
 
             ### Settings ###
 
@@ -41,8 +51,18 @@ class Main:
             print "Error was: ", e
 
     def run(self):
-        while True:
-            time.sleep(2)
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            # stopping the dialog engine
+            self.ALDialog.unsubscribe("Introduction")
+
+            # Deactivating the topic
+            self.ALDialog.deactivateTopic(self.test_topic)
+            self.ALDialog.unloadTopic(self.test_topic)
+
+            sys.exit(0)
 
     def play_sfr(self, _):
         print "Clicked on SFR"

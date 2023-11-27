@@ -1,4 +1,5 @@
 import time
+from naoqi import GenerateClass, ALProxy
 
 class MyClass(GeneratedClass):
     def __init__(self):
@@ -54,10 +55,10 @@ class MyClass(GeneratedClass):
 
         self.tracker.registerTarget(self.targetName, width)
         self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                           self.thresholdX, self.thresholdY, self.thresholdWz])
+                                          self.thresholdX, self.thresholdY, self.thresholdWz])
         self.tracker.setMode(mode)
 
-        self.tracker.track(self.targetName) #Start tracker
+        self.tracker.track(self.targetName)  # Start tracker
         self.isRunning = True
 
     def onInput_onStop(self):
@@ -77,40 +78,40 @@ class MyClass(GeneratedClass):
         if (parameterName == "Distance X (m)"):
             self.distanceX = newValue
             self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                               self.thresholdX, self.thresholdY, self.thresholdWz])
+                                              self.thresholdX, self.thresholdY, self.thresholdWz])
             return
 
         if (parameterName == "Distance Y (m)"):
             self.distanceY = newValue
             self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                               self.thresholdX, self.thresholdY, self.thresholdWz])
+                                              self.thresholdX, self.thresholdY, self.thresholdWz])
             return
 
-        if (parameterName == "Theta (rad)"):
+        if parameterName == "Theta (rad)":
             self.angleWz = newValue
             self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                               self.thresholdX, self.thresholdY, self.thresholdWz])
+                                              self.thresholdX, self.thresholdY, self.thresholdWz])
             return
 
-        if (parameterName == "Threshold X (m)"):
+        if parameterName == "Threshold X (m)":
             self.thresholdX = newValue
             self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                               self.thresholdX, self.thresholdY, self.thresholdWz])
+                                              self.thresholdX, self.thresholdY, self.thresholdWz])
             return
 
         if (parameterName == "Threshold Y (m)"):
             self.thresholdY = newValue
             self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                               self.thresholdX, self.thresholdY, self.thresholdWz])
+                                              self.thresholdX, self.thresholdY, self.thresholdWz])
             return
 
         if (parameterName == "Threshold Theta (rad)"):
             self.thresholdWz = newValue
             self.tracker.setRelativePosition([-self.distanceX, self.distanceY, self.angleWz,
-                                               self.thresholdX, self.thresholdY, self.thresholdWz])
+                                              self.thresholdX, self.thresholdY, self.thresholdWz])
             return
 
-        if(parameterName == "Effector"):
+        if (parameterName == "Effector"):
             self.tracker.setEffector(newValue)
             self.effector = newValue
             return

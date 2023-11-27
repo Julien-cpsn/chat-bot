@@ -14,7 +14,7 @@ TODO
 
 ## Setup instructions
 1. Clone the repo in /home/nao/.local/share/PackageManager/apps/chat-bot
-2. Run the code using "env OPENAI_KEY=<openai api key> python app.py"
+2. Run the code using `env OPENAI_KEY=<openai api key> python app.py`
 3. Profit!
 
 ## Usage

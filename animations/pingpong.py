@@ -1,5 +1,5 @@
-# Choregraphe simplified export in Python.
 from naoqi import ALProxy
+
 names = list()
 times = list()
 keys = list()
@@ -44,10 +44,14 @@ names.append("RShoulderRoll")
 times.append([0, 0.04, 3.96])
 keys.append([-0.102052, -0.102052, -0.102052])
 
+
+# Time adjustment
+for row_index in range(0, len(times)):
+    for column_index in range(0, len(times[row_index])):
+        times[row_index][column_index] += 2
+
 try:
-  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-  # motion = ALProxy("ALMotion", IP, 9559)
-  motion = ALProxy("ALMotion")
-  motion.angleInterpolation(names, keys, times, True)
+    motion = ALProxy("ALMotion", "127.0.0.1", 9559)
+    motion.angleInterpolation(names, keys, times, True)
 except BaseException, err:
-  print err
+    print err

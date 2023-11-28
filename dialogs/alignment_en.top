@@ -2,16 +2,16 @@ topic: ~Alignment()
 language: enu
 
 u:(good) Which alignment?
-    u1:(lawful) lawful
-    u1:(neutral) neutral
-    u1:(chaotic) chaotic
+    u1:(lawful) lawful ^call(AlignmentMatrix.lawful_good())
+    u1:(neutral) neutral ^call(AlignmentMatrix.neutral_good())
+    u1:(chaotic) chaotic ^call(AlignmentMatrix.chaotic_good())
 
 u:(neutral) Which alignment?
-    u1:(lawful) lawful
-    u1:(true) true
-    u1:(chaotic) chaotic
+    u1:(lawful) lawful ^call(AlignmentMatrix.lawful_neutral())
+    u1:(true) true ^call(AlignmentMatrix.true_neutral())
+    u1:(chaotic) chaotic ^call(AlignmentMatrix.chaotic_neutral())
 
 u:(Evil) Which alignment?
-    u1:(lawful) lawful
-    u1:(neutral) neutral
-    u1:(chaotic) chaotic
+    u1:(lawful) lawful ^call(AlignmentMatrix.lawful_evil())
+    u1:(neutral) neutral ^call(AlignmentMatrix.neutral_evil())
+    u1:(chaotic) chaotic ^call(AlignmentMatrix.chaotic_evil())

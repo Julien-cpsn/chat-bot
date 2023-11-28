@@ -1,0 +1,17 @@
+topic: ~Alignment()
+language: frf
+
+u:(bon) Quel alignement ?
+    u1:(loyal) loyal ^call(AlignmentMatrix.lawful_good())
+    u1:(neutre) neutre ^call(AlignmentMatrix.neutral_good())
+    u1:(chaotique) chaotique ^call(AlignmentMatrix.chaotic_good())
+
+u:(neutre) Quel alignement ?
+    u1:(loyal) loyal ^call(AlignmentMatrix.lawful_neutral())
+    u1:(true) true ^call(AlignmentMatrix.true_neutral())
+    u1:(chaotique) chaotique ^call(AlignmentMatrix.chaotic_neutral())
+
+u:(méchant) Quel alignement ?
+    u1:(loyal) loyal ^call(AlignmentMatrix.lawful_evil())
+    u1:(neutre) neutre ^call(AlignmentMatrix.neutral_evil())
+    u1:(chaotique) chaotique ^call(AlignmentMatrix.chaotic_evil())

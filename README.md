@@ -1,5 +1,10 @@
 # Chat-Bot
 
+## Contributors
+
+- Julien CAPOSIENA @julien-cpsn
+- Johan PLANCHON @joxcat
+
 ## Description
 
 Our Pepper robot do actions based on an alignement matrix. And can converse with the user.
@@ -13,19 +18,24 @@ Our Pepper robot do actions based on an alignement matrix. And can converse with
 TODO
 
 ## Setup instructions
-1. Clone the repo in /home/nao/.local/share/PackageManager/apps/chat-bot
-2. Run the code using `env OPENAI_KEY=<openai api key> python app.py`
+> You need `python 2.7`, `curl`, `git` or `tar` (to download the repository) and `ssh` 
+
+1. Ssh on the robot using `ssh nao@pepper<N>.local` *(where `<N>` is the pepper number)*
+1. Clone the repo in /home/nao/.local/share/PackageManager/apps/chat-bot `git clone https://github.com/Julien-cpsn/chat-bot.git /home/nao/.local/share/PackageManager/apps/chat-bot`
+2. Run the code using `env OPENAI_KEY=<openai api key> PYTHONIOENCODING=utf-8 python /home/nao/.local/share/PackageManager/apps/chat-bot/app.py` *(if `python` is bound to `python3` use `python2` in place)*
 3. Profit!
 
 ## Usage
 ### On Tablet
-Clic any of the 9 alignement chart button to choose which action the robot will do.
+> You can see and control the tablet on your computer with the url `http://pepper<N>.local/apps/chat_bot/` *(where `<N>` is the pepper number)*
+
+Clic any of the 9 alignement chart button to choose which action the robot will do. Please refer to the [Story Board](#story-board) for the consequence of the choice.
 
 ### With voice
-Say the name of any of the 9 alignement chart cases to choose which action the robot will.
+Say the name of any of the 9 alignement chart cases to choose which action the robot will do. Please refer to the [Story Board](#story-board) for the consequence of the choice.
 
 ### The assistant
-Speak to the robot, it will transcript the text using Whisper and it will respond using ChatGPT. 
+Say "Ok Pepper" and then talk to the robot it will transcript the text using Whisper and it will respond using ChatGPT. 
 
 ## Story Board
 
@@ -121,13 +131,3 @@ A small ping pong break?
 No description.
 ![](images/chaotic-evil.png)
 
-## Manual
-
-```
-http://169.254.53.144/apps/chat_bot/
-```
-
-## Contributors
-
-- Julien CAPOSIENA @julien-cpsn
-- Johan PLANCHON @joxcat

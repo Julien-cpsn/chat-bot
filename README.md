@@ -20,8 +20,8 @@ Our Pepper robot do actions based on an alignement matrix. And can converse with
 ## Ethical Analysis
 [Ethical Analysis.xlsx](./Analyse_ethique.xlsx)
 
-## Youtube Demo
-TODO
+## Demo
+![demo](./demo.mp4)
 
 ## Setup instructions
 > You need `python 2.7`, `curl`, `git` or `tar` (to download the repository) and `ssh` 

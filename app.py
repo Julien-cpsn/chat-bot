@@ -262,7 +262,7 @@ class Main:
               --form file=@%s \\
               --form model=whisper-1 \\
               --form 'prompt=Pepper' \\
-              --form response_format=text""" % openai_key, file_name],
+              --form response_format=text""" % (openai_key, file_name)],
             shell=True
         )
 

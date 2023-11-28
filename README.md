@@ -5,6 +5,12 @@
 - Julien CAPOSIENA @julien-cpsn
 - Johan PLANCHON @joxcat
 
+## Documentation
+
+- http://doc.aldebaran.com/2-5/naoqi/index.html
+- https://gitlab.com/fabricejumel/ihr-raph
+- http://doc.aldebaran.com/2-5/naoqi/interaction/dialog/dialog-syntax_full.html?highlight=qichat
+
 ## Description
 
 Our Pepper robot do actions based on an alignement matrix. And can converse with the user.

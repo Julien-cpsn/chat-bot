@@ -203,10 +203,11 @@ class Main:
         self.tablet_service.stopVideo()
 
     def queryChatGPT(self, query):
+        openai_key = os.environ.get("OPENAI_KEY")
         response = subprocess.check_output([
             """curl -s https://api.openai.com/v1/chat/completions \\
               -H \"Content-Type: application/json\" \\
-              -H \"Authorization: Bearer ***REMOVED***\" \\
+              -H \"Authorization: Bearer %s\" \\
               -d '{
                 \"model\": \"gpt-3.5-turbo\",
                 \"messages\": [
@@ -219,7 +220,7 @@ class Main:
                     \"content\": \"%s\"
                   }
                 ]
-              }'""" % query],
+              }'""" % (openai_key, query)],
             shell=True
         )
 

@@ -9,3 +9,4 @@ u:("introduction") Salut, c'est moi, chatte botte ! Je suis un robot à but éth
 u:(~hello) Bonjour
 u:(~bye) Au-revoir
 u:(~howAreYou) Je vais bien merci !
+u:(Ok) J'écoute $TriggerLiveChat=1

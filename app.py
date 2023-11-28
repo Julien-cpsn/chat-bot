@@ -23,9 +23,9 @@ class LanguageManager:
 
         self.loaded_topics = {}
 
-        self.loadTopic("Chat")
-
-        #self.loadTopic("Introduction")
+        self.unloadAllTopics()
+        self.loadTopic("Introduction")
+        self.loadTopic("Alignment")
 
         print "Dialog services loaded!"
         pass
@@ -153,6 +153,7 @@ class Main:
 
             self.tablet_service = session.service("ALTabletService")
             self.memory = session.service("ALMemory")
+            self.audio_recorder = session.service("ALAudioRecorder")
 
             self.alignment_matrix = AlignmentMatrix(session)
             self.alignment_matrix_services = session.registerService("AlignmentMatrix", self.alignment_matrix)
@@ -160,10 +161,23 @@ class Main:
             self.language_manager = LanguageManager(session)
             self.language_manager_service = session.registerService("LanguageManager", self.language_manager)
 
+            self.recording_time = None
+            self.is_live_chat_available = True
+            self.trigger_live_chat_state = False
+
             ### Subscribers ###
 
             self.play_sfr_subscriber = self.memory.subscriber("play_sfr")
             self.play_sfr_subscriber.signal.connect(self.play_sfr)
+
+            self.live_chat_subscriber = self.memory.subscriber("SpeechDetected")
+            self.live_chat_subscriber.signal.connect(self.liveChat)
+
+            self.free_live_chat_subscriber = self.memory.subscriber("ALTextToSpeech/TextDone")
+            self.free_live_chat_subscriber.signal.connect(self.freeLiveChat)
+
+            self.trigger_live_chat_subscriber = self.memory.subscriber("TriggerLiveChat")
+            self.trigger_live_chat_subscriber.signal.connect(self.trigger_live_chat)
 
             ### Settings ###
 
@@ -172,18 +186,10 @@ class Main:
 
             ### Web view ###
 
-            self.dialog_subscriber = self.memory.subscriber("test")
-            self.dialog_subscriber.signal.connect(self.test)
-
             self.tablet_service.showWebview("http://198.18.0.1/apps/chat_bot/index.html")
 
         except Exception, e:
             print "Error was: ", e
-
-    def test(self, content):
-        print len(content)
-        print ">", content
-        #self.queryChatGPT(content)
 
     def run(self):
         """
@@ -202,25 +208,93 @@ class Main:
         time.sleep(4)
         self.tablet_service.stopVideo()
 
-    def queryChatGPT(self, query):
+    def trigger_live_chat(self, _):
+        print "Live chat triggered"
+        print "SpeechRecognition > Start"
+
+        self.recording_time = time.time()
+
+        self.audio_recorder.startMicrophonesRecording(
+            "/home/nao/.local/share/PackageManager/apps/chat_bot/chats/chat.wav",
+            "wav",
+            16000,
+            [0, 0, 1, 0]
+        )
+
+    def liveChat(self, is_speaking):
+        if not self.is_live_chat_available:
+            return
+
+        if not is_speaking and os.path.exists("/home/nao/.local/share/PackageManager/apps/chat_bot/chats/chat.wav"):
+            self.is_live_chat_available = False
+
+            print "SpeechRecognition > End"
+            self.audio_recorder.stopMicrophonesRecording()
+
+            if time.time() - self.recording_time < 1.0:
+                return
+
+            user_input = self.queryWhisper("/home/nao/.local/share/PackageManager/apps/chat_bot/chats/chat.wav")
+            os.remove("/home/nao/.local/share/PackageManager/apps/chat_bot/chats/chat.wav")
+            user_input = user_input.replace("\n", " ").strip(" ")
+
+            print "SpeechRecognition > User:", user_input
+            response = self.queryChatGPT(user_input)
+            print "SpeechRecognition > Pepper:", response
+
+            self.alignment_matrix.tts.say(response)
+
+    def freeLiveChat(self, state):
+        if state:
+            print "> Available"
+            self.is_live_chat_available = True
+
+    def queryWhisper(self, file_name):
+        openai_key = os.environ.get("OPENAI_KEY")
+
         response = subprocess.check_output([
-            """curl -s https://api.openai.com/v1/chat/completions \\
-              -H \"Content-Type: application/json\" \\
-              -H \"Authorization: Bearer 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\" \\
-              -d '{
-                \"model\": \"gpt-3.5-turbo\",
-                \"messages\": [
-                  {
-                    \"role\": \"system\",
-                    \"content\": \"You are a joyful and helpful assistant robot.\"
-                  },
-                  {
-                    \"role\": \"user\",
-                    \"content\": \"%s\"
-                  }
-                ]
-              }'""" % query],
+            """curl -s \\
+              --request POST \\
+              --url https://api.openai.com/v1/audio/transcriptions \\
+              --header 'Content-Type: multipart/form-data' \\
+              --header 'Authorization: Bearer %s' \\
+              --connect-timeout 15 \\
+              --form file=@%s \\
+              --form model=whisper-1 \\
+              --form 'prompt=Pepper' \\
+              --form response_format=text""" % openai_key, file_name],
             shell=True
+        )
+
+        return response
+
+    def queryChatGPT(self, query):
+        openai_key = os.environ.get("OPENAI_KEY")
+
+        params = {
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are Pepper a joyful and helpful assistant robot. You respond only in short sentences."
+                },
+                {
+                    "role": "user",
+                    "content": query
+                }
+            ]
+        }
+        response = subprocess.check_output([
+                "curl", "-s",
+                "--request", "POST",
+                "--url", "https://api.openai.com/v1/chat/completions",
+                "--header", "Content-Type: application/json",
+                "--header", "Authorization: Bearer %s" % openai_key,
+                "--connect-timeout", "15",
+                "--data",
+                json.dumps(params)
+            ],
+            shell=False
         )
 
         response_data = json.loads(response)
@@ -228,7 +302,6 @@ class Main:
         if 'choices' in response_data:
             text = response_data['choices'][0]['message']['content']
 
-            print text
             return text
         else:
             print response_data

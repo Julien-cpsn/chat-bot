@@ -1,0 +1,17 @@
+topic: ~Alignment()
+language: enu
+
+u:(good) Which alignment?
+    u1:(lawful) lawful
+    u1:(neutral) neutral
+    u1:(chaotic) chaotic
+
+u:(neutral) Which alignment?
+    u1:(lawful) lawful
+    u1:(true) true
+    u1:(chaotic) chaotic
+
+u:(Evil) Which alignment?
+    u1:(lawful) lawful
+    u1:(neutral) neutral
+    u1:(chaotic) chaotic

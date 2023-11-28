@@ -9,3 +9,4 @@ u:("introduction") Hello, it's me, chat bot! I am a robot made for ethical and u
 u:(~hello) Hello
 u:(~bye) Bye
 u:(~howAreYou) I am fine, thanks!
+u:(Ok) Tell me $TriggerLiveChat=1

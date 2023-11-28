@@ -35,7 +35,7 @@ Clic any of the 9 alignement chart button to choose which action the robot will 
 Say the name of any of the 9 alignement chart cases to choose which action the robot will do. Please refer to the [Story Board](#story-board) for the consequence of the choice.
 
 ### The assistant
-Say "Ok Pepper" and then talk to the robot it will transcript the text using Whisper and it will respond using ChatGPT. 
+Say "Ok" and then talk to the robot it will transcript the text using Whisper and it will respond using ChatGPT. 
 
 ## Story Board
 

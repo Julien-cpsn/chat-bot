@@ -1,0 +1,4 @@
+topic: ~Chat()
+language: enu
+
+u:(say *) $test=$_

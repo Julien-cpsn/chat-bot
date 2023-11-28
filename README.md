@@ -19,13 +19,13 @@ TODO
 
 ## Usage
 ### On Tablet
-Clic any of the 9 alignement chart button to choose which action the robot will do
+Clic any of the 9 alignement chart button to choose which action the robot will do.
 
 ### With voice
-Say the name of any of the 9 alignement chart cases to choose which action the robot will
+Say the name of any of the 9 alignement chart cases to choose which action the robot will.
 
 ### The assistant
-TODO
+Speak to the robot, it will transcript the text using Whisper and it will respond using ChatGPT. 
 
 ## Story Board
 
